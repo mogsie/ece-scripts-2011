@@ -321,7 +321,7 @@ function set_up_ece_scripts()
         (cd ece-scripts
             git pull 1>>$log 2>>$log)
     else
-        git clone git://github.com/skybert/ece-scripts.git \
+        git clone $git_source \
             1>>$log 2>>$log
     fi
     
@@ -1266,6 +1266,9 @@ function common_pre_install()
 
     technet_user=`grep technet_user $conf_file 2>/dev/null | cut -d'=' -f2`
     technet_password=`grep technet_password $conf_file 2>/dev/null | cut -d'=' -f2`
+    git_source=`grep git_source $conf_file 2>/dev/null | cut -d '=' -f2`
+    # Assign a default value to git_source if not found
+    ${git_source:=http://github.com/skybert/ece-scripts.git}
 
     if [ -z "$technet_user" -o -z "$technet_password" ]; then
         print "Be sure to set technet_user and technet_password "
