@@ -193,7 +193,7 @@ function install_common_os_packages()
             git_package=git
         fi
 
-        packages="curl $git_package wget"
+        packages="curl $git_package wget unzip"
         install_packages_if_missing $packages
     fi
 
