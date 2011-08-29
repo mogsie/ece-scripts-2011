@@ -1117,11 +1117,12 @@ acl adactus {
 EOF
 
     for el in $backend_servers; do
+        appserver_id=$(echo $el | cut -d':' -f1 | sed 's/-/_/g' )
         appserver_host=$(echo $el | cut -d':' -f1)
         appserver_port=$(echo $el | cut -d':' -f2)
 
         cat >> /etc/varnish/default.vcl <<EOF
-backend $appserver_host {
+backend $appserver_id {
   .host = "$appserver_host";
   .port = "$appserver_port";
 }
@@ -1135,10 +1136,10 @@ EOF
 director webdirector client {
 EOF
     for el in $backend_servers; do
-        appserver_host=$(echo $el | cut -d':' -f1)
+        appserver_id=$(echo $el | cut -d':' -f1 | sed 's/-/_/g' )
         cat >> /etc/varnish/default.vcl <<EOF
   {
-     .backend = $appserver_host;
+     .backend = $appserver_id;
      .weight = 1;
   }
 EOF
