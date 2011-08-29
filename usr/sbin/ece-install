@@ -215,7 +215,6 @@ function set_up_assembly_tool()
     if [ -e $download_dir/assemblytool*zip ]; then
         unzip -u $download_dir/assemblytool*zip \
             1>>$log 2>>$log
-        mv $download_dir/assemblytool*zip /tmp/
     fi
 
     # adding an instance layer to the Nursery configuration
@@ -256,6 +255,8 @@ EOF
     cd /opt/escenic/assemblytool/
     ant -q initialize \
         1>>$log 2>>$log
+    # TODO if assemblytool fails, abort?
+
     cat assemble.properties | \
         sed 's/#\ engine.root\ =\ \./engine.root=\/opt\/escenic\/engine/g' \
         > assemble.properties.tmp
@@ -281,21 +282,30 @@ function set_up_engine_and_plugins()
     if [ ! -d engine-* ]; then
         unzip -u $download_dir/engine*.zip \
             1>>$log 2>>$log
+        if [ ! -d engine-* ] ; then
+            echo "After unpacking " $download_dir/engine*.zip " no engine directory appeared."
+            # TODO is it possible to recover?
+            exit 2
+        fi
         if [ -h engine ]; then
             rm engine
         fi
     
         ln -s engine-* engine
-        mv $download_dir/engine*.zip /tmp
     else
         debug "engine-<version> is already there, skipping to next step."
     fi
     
-    # now, there's only plugins left in the download dir
     # we extract them in /opt/escenic as we want to re-use
     # them between minor updates of ECE.
     cd /opt/escenic/
     for el in $download_dir/*.zip; do
+        if [ "${el/engine*}" == "" ] ; then
+          continue
+        fi
+        if [ "${el/assemblytool*}" == "" ] ; then
+          continue
+        fi
         unzip -u $el \
             1>>$log 2>>$log
     done
