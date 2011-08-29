@@ -1088,7 +1088,7 @@ function set_up_varnish()
     /etc/init.d/varnish stop 1>>$log 2>>$log
 
     file=/etc/default/varnish
-    sed -i 's/6081/80/g' $file
+    sed -i -e 's/6081/80/g' -e 's/^START=no$/START=yes/'  $file
 
     cat > /etc/varnish/default.vcl <<EOF
 /* Varnish configuration for Escenic Content Engine              -*- java -*- */
