@@ -228,7 +228,6 @@ fileSystemRoot = /etc/escenic/engine/instance/\${com.escenic.instance}/
 EOF
     echo "" >> Nursery.properties
     echo "layer.06 = /layers/instance/Layer" >> Nursery.properties
-    echo "come here" > /tmp/tkj
     
     # set up which plugins to use
     cd /opt/escenic/assemblytool/
