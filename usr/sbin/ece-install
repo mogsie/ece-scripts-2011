@@ -1186,7 +1186,7 @@ sub vcl_deliver {
    * URL has been fetched from cache or not.
    */
   if (obj.hits > 0) {
-    set resp.http.X-Cache = "HIT #" + obj.hits;
+    set resp.http.X-Cache = "HIT #" obj.hits;
   }
   else {
     set resp.http.X-Cache = "MISS";
