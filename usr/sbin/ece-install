@@ -200,6 +200,7 @@ function install_common_os_packages()
     assert_pre_prequesite curl
     assert_pre_prequesite wget
     assert_pre_prequesite git
+    assert_pre_prequesite unzip
 }
 
 make_dir $ece_directories
