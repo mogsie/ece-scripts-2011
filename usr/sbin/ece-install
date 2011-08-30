@@ -1262,9 +1262,9 @@ function common_pre_install()
 {
     print "I'm logging to $log"
 
-    technet_user=`grep technet_user $conf_file 2>/dev/null | cut -d'=' -f2`
-    technet_password=`grep technet_password $conf_file 2>/dev/null | cut -d'=' -f2`
-    git_source=`grep git_source $conf_file 2>/dev/null | cut -d '=' -f2`
+    technet_user=`grep ^technet_user $conf_file 2>/dev/null | cut -d'=' -f2`
+    technet_password=`grep ^technet_password $conf_file 2>/dev/null | cut -d'=' -f2`
+    git_source=`grep ^git_source $conf_file 2>/dev/null | cut -d '=' -f2`
     # Assign a default value to git_source if not found
     ${git_source:=http://github.com/skybert/ece-scripts.git}
 
