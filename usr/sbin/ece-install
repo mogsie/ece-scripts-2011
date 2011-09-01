@@ -1007,6 +1007,7 @@ function set_up_user_enviornment()
     print "Setting up the ${ece_user} user's UNIX environment ..."
 
      # TODO get this from ece.conf and other magic
+     # TODO do we need this for root???  Shouldn't most code run as escenic?
 
     if [ $(grep JAVA_HOME /home/$ece_user/.bashrc | wc -l) -lt 1 ]; then
         echo JAVA_HOME=$java_home >> /home/$ece_user/.bashrc
