@@ -521,7 +521,7 @@ EOF
 function set_conf_file_value()
 {
     if [ -r $3 ]; then
-        if [ $(grep $1 $3 | wc -l) -gt 0 ]; then
+        if [ $(grep ^$1 $3 | wc -l) -gt 0 ]; then
             # TODO update existing values of the property instead of
             # removing & appending it.
             cat $3 | grep -v ^$1 > $3.tmp
