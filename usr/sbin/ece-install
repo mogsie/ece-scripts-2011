@@ -449,6 +449,15 @@ property.com.escenic.client.chunked=false
 EOF
 }
 
+function set_up_instance_conf()
+{
+    if [ ! -r /etc/escenic/ece-$instance_name.conf ] ; then
+        # TODO why use the ece-install ece.conf instead of basing it
+        # on the one shipping with content engine?
+        cp /etc/escenic/ece.conf /etc/escenic/ece-$instance_name.conf
+    fi
+}
+
 function set_up_instance_specific_nursery_configuration()
 {
     for el in /etc/escenic/engine/instance/*; do
@@ -467,7 +476,7 @@ function set_up_instance_specific_nursery_configuration()
     if [ ! -e $file ]; then
         echo "hostname=$HOSTNAME" >> $file
     fi
-    
+
 }
 
 function set_up_proper_logging_configuration()
@@ -1457,6 +1466,7 @@ function install_ece_instance()
     set_up_assembly_tool
     set_up_basic_nursery_configuration
     set_up_instance_specific_nursery_configuration
+    set_up_instance_conf
     
     set_up_app_server
     set_up_proper_logging_configuration
