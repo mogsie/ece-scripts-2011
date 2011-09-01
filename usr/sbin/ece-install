@@ -456,6 +456,15 @@ function set_up_instance_conf()
         # on the one shipping with content engine?
         cp /etc/escenic/ece.conf /etc/escenic/ece-$instance_name.conf
     fi
+
+    all_instances=""
+    for el in /etc/escenic/ece-*.conf; do
+        el=$(basename $el)
+        el=${el/ece-}
+        el=${el//.conf}
+        all_instances="$all_instances $el"
+    done
+    set_conf_file_value engine_instance_list "$all_instances" /etc/default/ece
 }
 
 function set_up_instance_specific_nursery_configuration()
@@ -1465,8 +1474,8 @@ function install_ece_instance()
     set_up_engine_and_plugins
     set_up_assembly_tool
     set_up_basic_nursery_configuration
-    set_up_instance_specific_nursery_configuration
     set_up_instance_conf
+    set_up_instance_specific_nursery_configuration
     
     set_up_app_server
     set_up_proper_logging_configuration
