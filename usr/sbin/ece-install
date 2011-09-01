@@ -660,7 +660,8 @@ function set_up_app_server
     fi
     
     cd $download_dir
-    wget --continue $tomcat_download \
+    tomcat_download=$(get_conf_value tomcat_download)
+    wget --continue ${tomcat_download:=http://mirrorservice.nomedia.no/apache.org/tomcat/tomcat-6/v6.0.33/bin/apache-tomcat-6.0.33.tar.gz} \
         1>>$log 2>>$log
     
     cd /opt/
@@ -1266,7 +1267,7 @@ function common_pre_install()
     technet_password=`grep ^technet_password $conf_file 2>/dev/null | cut -d'=' -f2`
     git_source=`grep ^git_source $conf_file 2>/dev/null | cut -d '=' -f2`
     # Assign a default value to git_source if not found
-    ${git_source:=http://github.com/skybert/ece-scripts.git}
+    echo ${git_source:=http://github.com/skybert/ece-scripts.git} > /dev/null
 
     if [ -z "$technet_user" -o -z "$technet_password" ]; then
         print "Be sure to set technet_user and technet_password "
